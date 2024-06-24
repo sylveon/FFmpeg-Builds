@@ -1,8 +1,5 @@
 name: Build FFmpeg
 
-permissions:
-  packages: write
-
 on:
   push:
     paths-ignore:
@@ -44,6 +41,9 @@ jobs:
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: pre_check
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -108,10 +108,13 @@ jobs:
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_base
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,winarm64,linux64,linuxarm64]
+        target: [win64]
     steps:
       - name: Free Disk-Space
         run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc && df -h
@@ -163,10 +166,13 @@ jobs:
     if: ${{ github.event.inputs.buildOnly != 'true' }}
     needs: build_target_bases
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
+        target: [win64]
         variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
     steps:
       - name: Free Disk-Space
@@ -231,7 +237,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
+        target: [win64]
         variant: [gpl,lgpl,gpl 5.1,gpl 6.1,gpl 7.0,lgpl 5.1,lgpl 6.1,lgpl 7.0,gpl-shared,lgpl-shared,gpl-shared 5.1,gpl-shared 6.1,gpl-shared 7.0,lgpl-shared 5.1,lgpl-shared 6.1,lgpl-shared 7.0]
     steps:
       - name: Free Disk-Space
