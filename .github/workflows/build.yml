@@ -1,5 +1,8 @@
 name: Build FFmpeg
 
+permissions:
+  packages: write
+
 on:
   push:
     paths-ignore:
